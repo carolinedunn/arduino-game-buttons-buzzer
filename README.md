@@ -23,24 +23,26 @@ A competitive buzzer game for 6 players using Arduino Uno with arcade-style butt
 - [Spade connectors](https://amzn.to/43UcBLQ)
 - [16x2 I2C LCD display](https://amzn.to/3Llyiy8)
 
+Material links provided are Amazon Affiliate links, which means I may earn a small commission at no extra cost to you.
+
 ## Wiring
 
 | Component | Pin(s) | Notes |
 |-----------|--------|-------|
 | Team 1 Button | D2 | INPUT_PULLUP to GND |
+| Team 1 LED | D10 | Through 220Ω to Anode, Cathode to GND |
 | Team 2 Button | D3 | INPUT_PULLUP to GND |
+| Team 2 LED | D11 | Through 220Ω to Anode, Cathode to GND |
 | Team 3 Button | D4 | INPUT_PULLUP to GND |
+| Team 3 LED | D12 | Through 220Ω to Anode, Cathode to GND |
 | Team 4 Button | D5 | INPUT_PULLUP to GND |
+| Team 4 LED | D13 | Through 220Ω to Anode, Cathode to GND |
 | Team 5 Button | D6 | INPUT_PULLUP to GND |
+| Team 5 LED | A0 | Through 220Ω to Anode, Cathode to GND |
 | Team 6 Button | D7 | INPUT_PULLUP to GND |
+| Team 6 LED | A1 | Through 220Ω to Anode, Cathode to GND |
 | Reset Button | D8 | INPUT_PULLUP to GND |
 | Piezo Buzzer | D9 | Through 100-220Ω resistor to piezo +, piezo - to GND |
-| Team 1 LED | D10 | Through 220Ω to Anode, Cathode to GND |
-| Team 2 LED | D11 | Through 220Ω to Anode, Cathode to GND |
-| Team 3 LED | D12 | Through 220Ω to Anode, Cathode to GND |
-| Team 4 LED | D13 | Through 220Ω to Anode, Cathode to GND |
-| Team 5 LED | A0 | Through 220Ω to Anode, Cathode to GND |
-| Team 6 LED | A1 | Through 220Ω to Anode, Cathode to GND |
 | LCD SDA | A4 | I2C Data |
 | LCD SCL | A5 | I2C Clock |
 | LCD VCC | 5V | Power |

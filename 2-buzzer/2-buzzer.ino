@@ -1,55 +1,85 @@
-// Two-player game timer: LCD (I2C) + LEDs (G/Y/R) + buzzer
-// Board: Arduino Uno/Nano (AVR)
+/*
+  Reset Button Test with LCD Screen
+  - LCD shows "Ready" / "Press Reset Button" on boot
+  - When reset button pressed, LCD shows "Reset Button Pressed"
+  - LCD returns to ready message after 10 seconds
 
-#include <Arduino.h>
+  Reset Button: D8 -> GND
+  I2C LCD: A4 (SDA), A5 (SCL), VCC 5V, GND
+*/
+
 #include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
-// ---------- Pins ----------
-const uint8_t BTN_PIN = 2;         // interrupt-capable pin on Uno/Nano
-const uint8_t LED_G   = 5;
-const uint8_t LED_Y   = 6;
-const uint8_t LED_R   = 7;
-const uint8_t BUZZER  = 9;
+// ------------- CONFIG -------------
+const uint8_t PIN_BTN_RST = 8;
+const unsigned long DEBOUNCE_MS = 30;
+const unsigned long DISPLAY_TIMEOUT_MS = 10000;  // 10 seconds
 
-// variables will change:
-int buttonState = 0;         // variable for reading the pushbutton status
+// LCD
+const uint8_t LCD_ADDR = 0x27;  // change to 0x3F if needed
+const uint8_t LCD_COLS = 16;
+const uint8_t LCD_ROWS = 2;
 
-// --- Helpers ---
-void beep(int freq, int ms, int pause) {
-  tone(BUZZER, freq, ms);
-  delay(ms + pause);
+LiquidCrystal_I2C lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
+// ----------------------------------
+
+// State
+unsigned long lastRstEdge = 0;
+unsigned long pressedAt = 0;
+bool showingPressed = false;
+
+// -------- LCD helpers --------
+void printCentered16(uint8_t row, const char* msg) {
+  int len = 0;
+  while (msg[len] && len < 16) len++;
+  int padLeft = (16 - len) / 2;
+
+  lcd.setCursor(0, row);
+  for (int i = 0; i < padLeft; ++i) lcd.print(' ');
+  for (int i = 0; i < len; ++i) lcd.print(msg[i]);
+  for (int i = padLeft + len; i < 16; ++i) lcd.print(' ');
 }
 
+void showReady() {
+  lcd.clear();
+  printCentered16(0, "Ready");
+  printCentered16(1, "Press Reset Button");
+  showingPressed = false;
+}
+
+void showPressed() {
+  lcd.clear();
+  printCentered16(0, "Reset Button");
+  printCentered16(1, "Pressed");
+  showingPressed = true;
+  pressedAt = millis();
+}
+// -----------------------------
+
 void setup() {
-    // Button + ISR
-  pinMode(BTN_PIN, INPUT_PULLUP);
-  
-  // LEDs + buzzer
-  pinMode(LED_G, OUTPUT);
-  pinMode(LED_Y, OUTPUT);
-  pinMode(LED_R, OUTPUT);
-  pinMode(BUZZER, OUTPUT);
-  digitalWrite(LED_G, LOW);
-  digitalWrite(LED_Y, LOW);
-  digitalWrite(LED_R, LOW);
+  pinMode(PIN_BTN_RST, INPUT_PULLUP);
+
+  // LCD
+  lcd.init();
+  lcd.backlight();
+
+  showReady();
 }
 
 void loop() {
-    // read the state of the pushbutton value:
-  buttonState = digitalRead(BTN_PIN);
+  unsigned long now = millis();
 
-    // check if the pushbutton is pressed. If it is, the buttonState is LOW:
-  if (buttonState == LOW) {
-    // turn LEDs on:
-  
-  digitalWrite(LED_G, HIGH); 
-  digitalWrite(LED_Y, HIGH); 
-  digitalWrite(LED_R, HIGH); 
-  beep(800, 80, 70); 
-  } else {
-    // turn LED off:
-  digitalWrite(LED_G, LOW); 
-  digitalWrite(LED_Y, LOW); 
-  digitalWrite(LED_R, LOW); 
+  // --- Reset button detection (debounced) ---
+  if (digitalRead(PIN_BTN_RST) == LOW) {
+    if (now - lastRstEdge > DEBOUNCE_MS) {
+      lastRstEdge = now;
+      showPressed();
+    }
+  }
+
+  // --- Auto-return to ready screen after timeout ---
+  if (showingPressed && (now - pressedAt >= DISPLAY_TIMEOUT_MS)) {
+    showReady();
   }
 }

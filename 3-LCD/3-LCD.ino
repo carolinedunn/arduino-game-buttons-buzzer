@@ -1,5 +1,7 @@
-// Two-player game timer: LCD (I2C) + LEDs (G/Y/R) + buzzer
+// Game Night Buzzer LCD Test Script
 // Board: Arduino Uno/Nano (AVR)
+// Test 16x2 I2C LCD screen connection to Arduino Uno
+// Success = LCD screen display Line 1: Welcome to, Line 2: Game Night
 
 #include <Arduino.h>
 #include <Wire.h>

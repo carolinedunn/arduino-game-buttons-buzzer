@@ -48,16 +48,24 @@ Material links provided are Amazon Affiliate links, which means I may earn a sma
 | LCD VCC | 5V | Power |
 | LCD GND | GND | Ground |
 
-## Installation
+## Software Setup
 
-1. Install the required library:
-   - `LiquidCrystal_I2C` (available in Arduino Library Manager)
+1. **Install Arduino IDE** (https://www.arduino.cc/en/software)
 
-2. Clone this repository or download the `.ino` file
+   If using a Raspberry Pi install with command
+   ```bash
+   sudo apt install arduino
+   ```
+2. **Install the LCD library**  
+   Open **Sketch → Include Library → Manage Libraries**, search for **LiquidCrystal I2C**, and install.  
+   (Tested with **Frank de Brabander’s LiquidCrystal_I2C** library.)
 
-3. Open the sketch in Arduino IDE
+3. Clone this repository or download the `.ino` file
+   ```bash
+   git clone https://github.com/carolinedunn/arduino-game-buttons-buzzer.git
+   ```
 
-4. Verify the LCD I2C address (default is `0x27`, some displays use `0x3F`)
+4. Open the sketch in Arduino IDE
 
 5. Upload to your Arduino Uno
 

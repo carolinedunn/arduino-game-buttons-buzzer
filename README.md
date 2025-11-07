@@ -90,3 +90,10 @@ You can customize these settings in the code:
 - `LCD_ADDR` - I2C address of your LCD (0x27 or 0x3F)
 - `TEAM_NAMES` - Customize team names
 
+---
+
+## 📚 Author
+Created by **Caroline Dunn**  
+- 🌐 [winningintech.com](https://winningintech.com/)  
+- 📺 [YouTube.com/Caroline](https://www.youtube.com/caroline)  
+- 📘 [A Woman’s Guide to Winning in Tech](https://amzn.to/3YxHVO7)  

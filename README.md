@@ -2,6 +2,8 @@ Game Night Buzzer - Arduino Uno
 
 A competitive buzzer game for up to 6 players using Arduino Uno with arcade-style buttons, LED feedback, distinct win tones, and an LCD display.
 
+[![Arduino: Game Night Buzzer](wiring-n-images/arduino-thumbnail.jpg)](https://youtu.be/f9qVKNOjCOA)
+
 ## Features
 
 - **6 independent player buttons** with arcade-style feel
